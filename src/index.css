@@ -1,0 +1,72 @@
+:root {
+  --cream: #f5f0e8;
+  --warm-white: #faf7f2;
+  --parchment: #e8dfd0;
+  --terracotta: #8b3a2a;
+  --brick: #6b2d1f;
+  --rust: #c0452a;
+  --deep-brown: #1a0f0a;
+  --mid-brown: #3d2314;
+  --sand: #c9a882;
+  --gold: #b8860b;
+  --light-gold: #d4a853;
+  --ink: #1c1008;
+  --muted: #7a6455;
+
+  --font-display: 'Cormorant SC', serif;
+  --font-body: 'Cormorant Garamond', serif;
+  --font-accent: 'IM Fell English', serif;
+
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --shadow: 0 8px 40px rgba(26, 15, 10, 0.12);
+  --shadow-hover: 0 20px 60px rgba(26, 15, 10, 0.22);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--warm-white);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--terracotta); border-radius: 2px; }
+::selection { background: var(--terracotta); color: var(--cream); }
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: var(--font-body); }
+img { display: block; max-width: 100%; }
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ornament {
+  display: block;
+  text-align: center;
+  font-size: 1.4rem;
+  color: var(--terracotta);
+  margin: 1.5rem 0;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  html { font-size: 14px; }
+}
