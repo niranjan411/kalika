@@ -2,7 +2,8 @@ import './index.css'
 import Header from './components/Header'
 import Home from './pages/Home'
 import About from './pages/About'
-import Illustrations from './pages/Illustrations'
+
+import DesignSkills from './pages/DesignSkills'
 import SOT from './pages/SOT'
 import DesignProcess from './pages/DesignProcess'
 import Designs from './pages/Designs'
@@ -15,7 +16,7 @@ function App() {
       <main>
         <Home />
         <About />
-        <Illustrations />
+        <DesignSkills />
         <SOT />
         <DesignProcess />
         <Designs />

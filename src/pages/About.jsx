@@ -27,7 +27,7 @@ export default function About() {
         alignItems: 'center',
       }}
     >
-      {/* Left: Image collage */}
+      {/* Left: Image */}
       <div
         style={{
           position: 'relative',
@@ -36,10 +36,9 @@ export default function About() {
           transition: 'all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         }}
       >
-        {/* Main image */}
         <div
           style={{
-            width: '80%',
+            width: '85%',
             aspectRatio: '3/4',
             overflow: 'hidden',
             background: 'var(--parchment)',
@@ -47,46 +46,40 @@ export default function About() {
           }}
         >
           <img
-            src="/design81.jpeg"
-            alt="Kalika Designs"
+            src="/about_me.png"
+            alt="About Me"
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              objectPosition: 'center top',
               transition: 'transform 0.7s ease',
             }}
             onMouseEnter={(e) => (e.target.style.transform = 'scale(1.04)')}
             onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
           />
         </div>
-        {/* Inset image */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-8%',
-            right: '0',
-            width: '42%',
-            aspectRatio: '1',
-            overflow: 'hidden',
-            border: '6px solid var(--warm-white)',
-            boxShadow: '0 12px 40px rgba(26,15,10,0.2)',
-          }}
-        >
-          <img
-            src="/design31.jpeg"
-            alt="Kalika craft"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        </div>
-        {/* Decorative border frame */}
+
+        {/* Decorative corner frame */}
         <div
           style={{
             position: 'absolute',
             top: '-15px',
             left: '-15px',
-            width: '60%',
-            height: '60%',
+            width: '55%',
+            height: '55%',
             border: '1px solid rgba(139,58,42,0.25)',
+            pointerEvents: 'none',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '-10px',
+            right: '12%',
+            width: '35%',
+            height: '35%',
+            border: '1px solid rgba(139,58,42,0.15)',
             pointerEvents: 'none',
           }}
         />
@@ -107,17 +100,17 @@ export default function About() {
         <h2
           style={{
             fontFamily: "'Cormorant SC', serif",
-            fontSize: 'clamp(2.2rem, 4vw, 3.5rem)',
+            fontSize: 'clamp(2rem, 4vw, 3.2rem)',
             fontWeight: 300,
             color: 'var(--deep-brown)',
-            lineHeight: 1.1,
+            lineHeight: 1.15,
             marginBottom: '1.5rem',
           }}
         >
-          Made with heart,
+          Passion for craft,
           <br />
           <em style={{ color: 'var(--terracotta)', fontStyle: 'italic' }}>
-            not algorithms.
+            rooted in heritage.
           </em>
         </h2>
 
@@ -133,42 +126,39 @@ export default function About() {
 
         <p
           style={{
-            fontSize: '1.15rem',
+            fontSize: '1.1rem',
             color: 'var(--mid-brown)',
-            lineHeight: 1.9,
-            marginBottom: '1.2rem',
+            lineHeight: 1.95,
+            marginBottom: '1.4rem',
             fontStyle: 'italic',
           }}
         >
-          Hi, I'm the founder of Kalika Designs — a small, thoughtful clothing
-          label rooted in the craft traditions of Rajasthan and the belief that
-          clothes should carry meaning.
+          I am a passionate fashion design student with a strong interest in
+          creative storytelling, textile exploration, and garment development.
         </p>
 
         <p
           style={{
-            fontSize: '1.1rem',
+            fontSize: '1.05rem',
             color: 'var(--muted)',
-            lineHeight: 1.9,
-            marginBottom: '2rem',
+            lineHeight: 1.95,
+            marginBottom: '1.4rem',
           }}
         >
-          Every piece is block-printed, naturally dyed, and sewn by skilled
-          artisans who have spent decades perfecting their craft. We're not
-          trying to scale fast — we're trying to make things that last. Things
-          you'll reach for again and again, years from now.
+          My work blends traditional influences with contemporary aesthetics,
+          drawing inspiration from culture, heritage, nature, and everyday life.
         </p>
 
         <p
           style={{
-            fontSize: '1.1rem',
+            fontSize: '1.05rem',
             color: 'var(--muted)',
-            lineHeight: 1.9,
+            lineHeight: 1.95,
           }}
         >
-          Kalika started as a personal obsession with block-printed fabric and
-          became a quiet rebellion against everything disposable. Welcome to the
-          slow side of fashion.
+          Through concept development, illustration, and design research, I
+          strive to create collections that are visually engaging, meaningful,
+          and connected to the people who wear them.
         </p>
 
         <div
@@ -177,13 +167,14 @@ export default function About() {
             paddingTop: '1.5rem',
             borderTop: '1px solid rgba(139,58,42,0.15)',
             display: 'flex',
-            gap: '3rem',
+            gap: '2.5rem',
+            flexWrap: 'wrap',
           }}
         >
           {[
-            { num: '200+', label: 'Designs' },
-            { num: '11', label: 'Artisans' },
-            { num: '100%', label: 'Handmade' },
+            { num: '5+', label: 'Collections' },
+            { num: '3+', label: 'Brands' },
+            { num: '100%', label: 'Handcrafted' },
           ].map((stat) => (
             <div key={stat.label}>
               <p
@@ -200,11 +191,11 @@ export default function About() {
               <p
                 style={{
                   fontFamily: "'Cormorant SC', serif",
-                  fontSize: '0.65rem',
+                  fontSize: '0.6rem',
                   letterSpacing: '0.25em',
                   color: 'var(--muted)',
                   textTransform: 'uppercase',
-                  marginTop: '4px',
+                  marginTop: '5px',
                 }}
               >
                 {stat.label}
@@ -216,9 +207,7 @@ export default function About() {
 
       <style>{`
         @media (max-width: 768px) {
-          #about {
-            grid-template-columns: 1fr !important;
-          }
+          #about { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
