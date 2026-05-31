@@ -74,7 +74,7 @@ function useVisible(threshold = 0.1) {
   return [ref, visible];
 }
 
-/* ── Desktop grid placement (unchanged) ── */
+/* ── Desktop grid placement ── */
 const gridStyles = [
   { gridColumn: 'span 3 / span 3', gridRowStart: '1' },
   { gridRowStart: '2' },
@@ -189,7 +189,7 @@ function ConceptCard({ item, index, visible }) {
         </div>
       </div>
 
-      {/* ── Below-image text — always visible, shown/hidden via CSS ── */}
+      {/* ── Below-image text — shown on mobile ── */}
       <div
         className="concept-below-text"
         style={{
@@ -544,32 +544,38 @@ export default function DesignSkills() {
         ════════════════════ */
         @media (max-width: 580px) {
 
-          /* Single column, full width with side margin */
+          /* Single column — each card is full width, stacked vertically */
           .concept-grid {
-            grid-template-columns: 1fr !important;
-            grid-template-rows: auto !important;
-            gap: 20px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 24px !important;
           }
-          .concept-grid > * {
-            grid-column: span 1 !important;
-            grid-row-start: auto !important;
-            /* card fills width minus the section padding already applied */
-            width: 100%;
+
+          /* Every card: full width, column layout (image on top, text below) */
+          .concept-card {
+            width: 100% !important;
+            grid-column: unset !important;
+            grid-row-start: unset !important;
+            flex-direction: column !important;
           }
 
           /* Image fills full card width, natural portrait ratio */
           .concept-img-wrap {
-            aspect-ratio: 3/4 !important;
             width: 100% !important;
+            aspect-ratio: 3/4 !important;
           }
 
           /* Hide on-image overlay on mobile */
           .concept-overlay { display: none !important; }
 
           /* Show below-image text block */
-          .concept-below-text { display: block !important; }
+          .concept-below-text {
+            display: block !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+          }
 
-          /* Illustrations: 2 col → 1 col for very small */
+          /* Illustrations: keep 2-col on mobile */
           .illus-grid {
             grid-template-columns: 1fr 1fr !important;
             gap: 8px !important;
