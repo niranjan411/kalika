@@ -74,7 +74,7 @@ function useVisible(threshold = 0.1) {
   return [ref, visible];
 }
 
-// Grid placement exactly matching the CSS spec
+/* ── Desktop grid placement (unchanged) ── */
 const gridStyles = [
   { gridColumn: 'span 3 / span 3', gridRowStart: '1' },
   { gridRowStart: '2' },
@@ -97,19 +97,24 @@ function ConceptCard({ item, index, visible }) {
         transform: visible ? 'translateY(0)' : 'translateY(40px)',
         transition: `opacity 0.7s ease ${index * 0.1}s, transform 0.7s ease ${index * 0.1}s, box-shadow 0.4s ease`,
         position: 'relative',
-        overflow: 'hidden',
         background: 'var(--parchment)',
         boxShadow: hovered ? '0 24px 60px rgba(26,15,10,0.35)' : 'none',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       className="concept-card"
     >
-      {/* Image */}
-      <div style={{
-        width: '100%',
-        aspectRatio: isFullWidth ? '21/8' : '4/5',
-        overflow: 'hidden',
-        position: 'relative',
-      }}>
+      {/* ── Image ── */}
+      <div
+        className="concept-img-wrap"
+        style={{
+          width: '100%',
+          aspectRatio: isFullWidth ? '21/8' : '4/5',
+          overflow: 'hidden',
+          position: 'relative',
+          flexShrink: 0,
+        }}
+      >
         <img
           src={item.image}
           alt={item.title}
@@ -120,27 +125,31 @@ function ConceptCard({ item, index, visible }) {
             objectPosition: 'center top',
             transition: 'transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease',
             transform: hovered ? 'scale(1.05)' : 'scale(1)',
-            filter: hovered ? 'brightness(0.5)' : 'brightness(0.78)',
+            filter: hovered ? 'brightness(0.5)' : 'brightness(0.82)',
           }}
         />
 
-        {/* Gradient overlay */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to top, rgba(26,15,10,0.85) 0%, rgba(26,15,10,0.18) 45%, transparent 68%)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          padding: isFullWidth
-            ? 'clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 4vw, 3rem)'
-            : 'clamp(1.2rem, 3vw, 2rem)',
-        }}>
+        {/* Gradient overlay — desktop only */}
+        <div
+          className="concept-overlay"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(to top, rgba(26,15,10,0.88) 0%, rgba(26,15,10,0.2) 45%, transparent 68%)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            padding: isFullWidth
+              ? 'clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 4vw, 3rem)'
+              : 'clamp(1.2rem, 3vw, 2rem)',
+          }}
+        >
           <p style={{
             fontFamily: "'Cormorant SC', serif",
             fontSize: '0.52rem',
             letterSpacing: '0.38em',
-            color: 'rgba(201,168,130,0.7)',
+            color: 'rgba(201,168,130,0.75)',
             textTransform: 'uppercase',
             marginBottom: '0.35rem',
           }}>
@@ -149,31 +158,76 @@ function ConceptCard({ item, index, visible }) {
 
           <h3 style={{
             fontFamily: "'Cormorant SC', serif",
-            fontSize: isFullWidth ? 'clamp(1.8rem, 3.5vw, 3rem)' : 'clamp(1.1rem, 2vw, 1.6rem)',
+            fontSize: isFullWidth
+              ? 'clamp(1.8rem, 3.5vw, 3rem)'
+              : 'clamp(1.1rem, 2vw, 1.6rem)',
             fontWeight: 300,
             color: 'var(--cream)',
             lineHeight: 1.05,
-            marginBottom: '0',
+            marginBottom: hovered ? '0.8rem' : '0',
+            transition: 'margin 0.4s ease',
           }}>
             {item.title}
           </h3>
 
-          {/* Description — visible always on mobile, hover-only on desktop */}
-          <p
-            className="concept-desc"
-            style={{
+          <div style={{
+            maxHeight: hovered ? '140px' : '0',
+            overflow: 'hidden',
+            transition: 'max-height 0.55s cubic-bezier(0.25,0.46,0.45,0.94)',
+          }}>
+            <p style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontStyle: 'italic',
-              fontSize: isFullWidth ? '1.05rem' : '0.9rem',
-              color: 'rgba(245,240,232,0.82)',
+              fontSize: isFullWidth ? '1.05rem' : '0.92rem',
+              color: 'rgba(245,240,232,0.85)',
               lineHeight: 1.8,
               maxWidth: isFullWidth ? '600px' : 'none',
-              marginTop: '0.7rem',
-            }}
-          >
-            {item.description}
-          </p>
+            }}>
+              {item.description}
+            </p>
+          </div>
         </div>
+      </div>
+
+      {/* ── Below-image text — always visible, shown/hidden via CSS ── */}
+      <div
+        className="concept-below-text"
+        style={{
+          padding: '1rem 1.2rem 1.4rem',
+          borderTop: '1px solid rgba(139,58,42,0.12)',
+          background: 'var(--parchment)',
+        }}
+      >
+        <p style={{
+          fontFamily: "'Cormorant SC', serif",
+          fontSize: '0.52rem',
+          letterSpacing: '0.35em',
+          color: 'var(--terracotta)',
+          textTransform: 'uppercase',
+          marginBottom: '0.3rem',
+          opacity: 0.75,
+        }}>
+          {item.caption}
+        </p>
+        <h3 style={{
+          fontFamily: "'Cormorant SC', serif",
+          fontSize: '1.2rem',
+          fontWeight: 400,
+          color: 'var(--deep-brown)',
+          lineHeight: 1.15,
+          marginBottom: '0.5rem',
+        }}>
+          {item.title}
+        </h3>
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontStyle: 'italic',
+          fontSize: '0.92rem',
+          color: 'var(--muted)',
+          lineHeight: 1.85,
+        }}>
+          {item.description}
+        </p>
       </div>
     </div>
   );
@@ -201,6 +255,7 @@ export default function DesignSkills() {
         }} />
 
         <div ref={conceptRef} style={{ maxWidth: '1300px', margin: '0 auto', position: 'relative' }}>
+
           {/* Header */}
           <div style={{
             marginBottom: 'clamp(3rem, 6vw, 5rem)',
@@ -236,15 +291,15 @@ export default function DesignSkills() {
             }} />
           </div>
 
-          {/* Concept grid — 3 col, rows as per spec */}
+          {/* ── Desktop grid (3-col layout per spec) ── */}
           <div
+            className="concept-grid"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gridTemplateRows: 'repeat(3, auto)',
               gap: '8px',
             }}
-            className="concept-grid"
           >
             {concepts.map((item, i) => (
               <ConceptCard key={item.id} item={item} index={i} visible={conceptVisible} />
@@ -279,7 +334,6 @@ export default function DesignSkills() {
         background: 'var(--cream)',
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          {/* Header */}
           <div style={{
             marginBottom: 'clamp(3rem, 6vw, 5rem)',
             opacity: illusVisible ? 1 : 0,
@@ -307,14 +361,13 @@ export default function DesignSkills() {
             }} />
           </div>
 
-          {/* Illustrations — 3 col × 2 rows, portrait images natural height */}
           <div
+            className="illus-grid"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '8px',
             }}
-            className="illus-grid"
           >
             {illustrations.map((item, i) => (
               <div
@@ -377,7 +430,6 @@ export default function DesignSkills() {
         background: 'var(--warm-white)',
       }}>
         <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          {/* Heading */}
           <div style={{
             textAlign: 'center',
             marginBottom: 'clamp(2.5rem, 5vw, 4rem)',
@@ -406,20 +458,19 @@ export default function DesignSkills() {
             }} />
           </div>
 
-          {/* SOT grid — landscape images, 1 col on mobile */}
           <div
+            className="sot-grid"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
               gap: '8px',
             }}
-            className="sot-grid"
           >
             {sotImages.map((item, i) => (
               <div
                 key={item.id}
+                className="sot-img-wrap"
                 style={{
-                  // last item (5th) spans full width
                   gridColumn: i === 4 ? 'span 2' : 'span 1',
                   overflow: 'hidden',
                   background: 'var(--parchment)',
@@ -428,7 +479,6 @@ export default function DesignSkills() {
                   transition: `all 0.7s ease ${i * 0.1}s`,
                   lineHeight: 0,
                 }}
-                className="sot-img-wrap"
               >
                 <img
                   src={item.image}
@@ -437,9 +487,8 @@ export default function DesignSkills() {
                     width: '100%',
                     height: 'auto',
                     display: 'block',
-                    objectFit: 'cover',
-                    // landscape images 2000×1414 — fix a height for visual consistency
                     aspectRatio: '2000/1414',
+                    objectFit: 'cover',
                     transition: 'transform 0.7s ease',
                   }}
                 />
@@ -450,7 +499,24 @@ export default function DesignSkills() {
       </div>
 
       <style>{`
-        /* ── Concept grid responsive ── */
+
+        /* ════════════════════
+           DESKTOP
+        ════════════════════ */
+
+        /* On desktop: hide the below-text block, use overlay instead */
+        .concept-below-text { display: none; }
+        .concept-overlay    { display: flex; }
+
+        .concept-card { transition: box-shadow 0.4s ease; }
+        .illus-card:hover img { transform: scale(1.03); }
+        .illus-card:hover .illus-overlay { background: rgba(139,58,42,0.06) !important; }
+        .sot-img-wrap:hover img { transform: scale(1.03); }
+
+
+        /* ════════════════════
+           TABLET  ≤ 900px
+        ════════════════════ */
         @media (max-width: 900px) {
           .concept-grid {
             grid-template-columns: 1fr 1fr !important;
@@ -460,33 +526,68 @@ export default function DesignSkills() {
           .concept-grid > *:nth-child(5) {
             grid-column: span 2 !important;
           }
-          .concept-grid > *:nth-child(n) {
+          .concept-grid > * {
             grid-row-start: auto !important;
           }
+          .concept-img-wrap {
+            aspect-ratio: 4/3 !important;
+          }
+          .concept-grid > *:nth-child(1) .concept-img-wrap,
+          .concept-grid > *:nth-child(5) .concept-img-wrap {
+            aspect-ratio: 21/8 !important;
+          }
         }
-        @media (max-width: 600px) {
-          .concept-grid { grid-template-columns: 1fr !important; }
-          .concept-grid > * { grid-column: span 1 !important; }
-          .illus-grid { grid-template-columns: 1fr 1fr !important; }
+
+
+        /* ════════════════════
+           MOBILE  ≤ 580px
+        ════════════════════ */
+        @media (max-width: 580px) {
+
+          /* Single column, full width with side margin */
+          .concept-grid {
+            grid-template-columns: 1fr !important;
+            grid-template-rows: auto !important;
+            gap: 20px !important;
+          }
+          .concept-grid > * {
+            grid-column: span 1 !important;
+            grid-row-start: auto !important;
+            /* card fills width minus the section padding already applied */
+            width: 100%;
+          }
+
+          /* Image fills full card width, natural portrait ratio */
+          .concept-img-wrap {
+            aspect-ratio: 3/4 !important;
+            width: 100% !important;
+          }
+
+          /* Hide on-image overlay on mobile */
+          .concept-overlay { display: none !important; }
+
+          /* Show below-image text block */
+          .concept-below-text { display: block !important; }
+
+          /* Illustrations: 2 col → 1 col for very small */
+          .illus-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+          }
+
+          /* SOT: single column */
           .sot-grid { grid-template-columns: 1fr !important; }
           .sot-grid > * { grid-column: span 1 !important; }
+          .sot-img-wrap img { aspect-ratio: 4/3 !important; }
         }
 
-        /* ── Mobile: always show description, no hover needed ── */
-        .concept-desc {
-          display: none;
-        }
-        @media (hover: hover) {
-          .concept-card:hover .concept-desc { display: block; }
-        }
-        @media (hover: none) {
-          .concept-desc { display: block !important; }
-        }
 
-        /* ── Hover effects ── */
-        .illus-card:hover img { transform: scale(1.03); }
-        .illus-card:hover .illus-overlay { background: rgba(139,58,42,0.06) !important; }
-        .sot-img-wrap:hover img { transform: scale(1.03); }
+        /* ════════════════════
+           VERY SMALL  ≤ 380px
+        ════════════════════ */
+        @media (max-width: 380px) {
+          .illus-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </section>
   );
