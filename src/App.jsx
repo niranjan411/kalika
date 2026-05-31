@@ -17,7 +17,7 @@ function App() {
         <Home />
         <About />
         <DesignSkills />
-        <SOT />
+        {/* <SOT /> */}
         <DesignProcess />
         <Designs />
       </main>

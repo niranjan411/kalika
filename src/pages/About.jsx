@@ -161,48 +161,7 @@ export default function About() {
           and connected to the people who wear them.
         </p>
 
-        <div
-          style={{
-            marginTop: '2.5rem',
-            paddingTop: '1.5rem',
-            borderTop: '1px solid rgba(139,58,42,0.15)',
-            display: 'flex',
-            gap: '2.5rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          {[
-            { num: '5+', label: 'Collections' },
-            { num: '3+', label: 'Brands' },
-            { num: '100%', label: 'Handcrafted' },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <p
-                style={{
-                  fontFamily: "'Cormorant SC', serif",
-                  fontSize: '2rem',
-                  color: 'var(--terracotta)',
-                  fontWeight: 500,
-                  lineHeight: 1,
-                }}
-              >
-                {stat.num}
-              </p>
-              <p
-                style={{
-                  fontFamily: "'Cormorant SC', serif",
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.25em',
-                  color: 'var(--muted)',
-                  textTransform: 'uppercase',
-                  marginTop: '5px',
-                }}
-              >
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
+        
       </div>
 
       <style>{`

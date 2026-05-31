@@ -5,7 +5,7 @@ const concepts = [
     id: 1,
     image: '/dolce_&_gabbana.png',
     title: 'Dolce & Gabbana',
-    caption: 'Fashion Concept Development',
+    caption: 'Brand Concept',
     description:
       'A celebration of Italian luxury, bold maximalism, and timeless craftsmanship. Draws inspiration from heritage, romance, and cultural storytelling — rich in detail, unapologetically expressive.',
   },
@@ -13,7 +13,7 @@ const concepts = [
     id: 2,
     image: '/suta.png',
     title: 'Suta',
-    caption: 'Fashion Concept Development',
+    caption: 'Brand Concept',
     description:
       'An ode to simplicity, comfort, and the beauty of everyday Indian textiles. Reimagines traditional sarees through thoughtful craftsmanship and contemporary storytelling.',
   },
@@ -47,6 +47,17 @@ const illustrations = [
   { id: 1, image: '/Illustration11.jpeg', title: 'Illustration I' },
   { id: 2, image: '/Illustration12.jpeg', title: 'Illustration II' },
   { id: 3, image: '/Illustration13.png',  title: 'Illustration III' },
+  { id: 4, image: '/Illustration14.png',  title: 'Illustration IV' },
+  { id: 5, image: '/Illustration15.png',  title: 'Illustration V' },
+  { id: 6, image: '/Illustration16.png',  title: 'Illustration VI' },
+];
+
+const sotImages = [
+  { id: 1, image: '/sot1.png' },
+  { id: 2, image: '/sot2.png' },
+  { id: 3, image: '/sot3.png' },
+  { id: 4, image: '/sot4.png' },
+  { id: 5, image: '/sot5.png' },
 ];
 
 function useVisible(threshold = 0.1) {
@@ -63,18 +74,17 @@ function useVisible(threshold = 0.1) {
   return [ref, visible];
 }
 
+// Grid placement exactly matching the CSS spec
+const gridStyles = [
+  { gridColumn: 'span 3 / span 3', gridRowStart: '1' },
+  { gridRowStart: '2' },
+  { gridRowStart: '2' },
+  { gridRowStart: '2' },
+  { gridColumn: 'span 3 / span 3', gridRowStart: '3' },
+];
+
 function ConceptCard({ item, index, visible }) {
   const [hovered, setHovered] = useState(false);
-
-  // Grid placement per your spec
-  const gridStyles = [
-    { gridColumn: 'span 3 / span 3', gridRowStart: '1' },  // div1 — Dolce
-    { gridRowStart: '2' },                                   // div2 — Suta
-    { gridRowStart: '2' },                                   // div3 — Tranquil
-    { gridRowStart: '2' },                                   // div4 — Kesar
-    { gridColumn: 'span 3 / span 3', gridRowStart: '3' },  // div5 — Haveli
-  ];
-
   const isFullWidth = index === 0 || index === 4;
 
   return (
@@ -89,18 +99,17 @@ function ConceptCard({ item, index, visible }) {
         position: 'relative',
         overflow: 'hidden',
         background: 'var(--parchment)',
-        cursor: 'default',
         boxShadow: hovered ? '0 24px 60px rgba(26,15,10,0.35)' : 'none',
       }}
+      className="concept-card"
     >
-      <div
-        style={{
-          width: '100%',
-          aspectRatio: isFullWidth ? '21/8' : '4/5',
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-      >
+      {/* Image */}
+      <div style={{
+        width: '100%',
+        aspectRatio: isFullWidth ? '21/8' : '4/5',
+        overflow: 'hidden',
+        position: 'relative',
+      }}>
         <img
           src={item.image}
           alt={item.title}
@@ -111,75 +120,59 @@ function ConceptCard({ item, index, visible }) {
             objectPosition: 'center top',
             transition: 'transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease',
             transform: hovered ? 'scale(1.05)' : 'scale(1)',
-            filter: hovered ? 'brightness(0.5)' : 'brightness(0.75)',
+            filter: hovered ? 'brightness(0.5)' : 'brightness(0.78)',
           }}
         />
 
-        {/* Bottom gradient + text overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(to top, rgba(26,15,10,0.82) 0%, rgba(26,15,10,0.15) 40%, transparent 65%)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            padding: isFullWidth
-              ? 'clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 4vw, 3rem)'
-              : 'clamp(1.2rem, 3vw, 2rem)',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "'Cormorant SC', serif",
-              fontSize: '0.55rem',
-              letterSpacing: '0.38em',
-              color: 'rgba(201,168,130,0.7)',
-              textTransform: 'uppercase',
-              marginBottom: '0.4rem',
-            }}
-          >
+        {/* Gradient overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(26,15,10,0.85) 0%, rgba(26,15,10,0.18) 45%, transparent 68%)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          padding: isFullWidth
+            ? 'clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 4vw, 3rem)'
+            : 'clamp(1.2rem, 3vw, 2rem)',
+        }}>
+          <p style={{
+            fontFamily: "'Cormorant SC', serif",
+            fontSize: '0.52rem',
+            letterSpacing: '0.38em',
+            color: 'rgba(201,168,130,0.7)',
+            textTransform: 'uppercase',
+            marginBottom: '0.35rem',
+          }}>
             {item.caption}
           </p>
 
-          <h3
-            style={{
-              fontFamily: "'Cormorant SC', serif",
-              fontSize: isFullWidth
-                ? 'clamp(1.8rem, 3.5vw, 3rem)'
-                : 'clamp(1.2rem, 2vw, 1.7rem)',
-              fontWeight: 300,
-              color: 'var(--cream)',
-              lineHeight: 1.05,
-              marginBottom: hovered ? '0.9rem' : '0',
-              transition: 'margin 0.4s ease',
-            }}
-          >
+          <h3 style={{
+            fontFamily: "'Cormorant SC', serif",
+            fontSize: isFullWidth ? 'clamp(1.8rem, 3.5vw, 3rem)' : 'clamp(1.1rem, 2vw, 1.6rem)',
+            fontWeight: 300,
+            color: 'var(--cream)',
+            lineHeight: 1.05,
+            marginBottom: '0',
+          }}>
             {item.title}
           </h3>
 
-          {/* Description slides up on hover */}
-          <div
+          {/* Description — visible always on mobile, hover-only on desktop */}
+          <p
+            className="concept-desc"
             style={{
-              maxHeight: hovered ? '140px' : '0',
-              overflow: 'hidden',
-              transition: 'max-height 0.55s cubic-bezier(0.25,0.46,0.45,0.94)',
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: 'italic',
+              fontSize: isFullWidth ? '1.05rem' : '0.9rem',
+              color: 'rgba(245,240,232,0.82)',
+              lineHeight: 1.8,
+              maxWidth: isFullWidth ? '600px' : 'none',
+              marginTop: '0.7rem',
             }}
           >
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontSize: isFullWidth ? '1.05rem' : '0.92rem',
-                color: 'rgba(245,240,232,0.82)',
-                lineHeight: 1.8,
-                maxWidth: isFullWidth ? '600px' : 'none',
-              }}
-            >
-              {item.description}
-            </p>
-          </div>
+            {item.description}
+          </p>
         </div>
       </div>
     </div>
@@ -188,83 +181,62 @@ function ConceptCard({ item, index, visible }) {
 
 export default function DesignSkills() {
   const [conceptRef, conceptVisible] = useVisible(0.05);
-  const [illusRef, illusVisible]     = useVisible(0.1);
+  const [illusRef,   illusVisible]   = useVisible(0.08);
+  const [sotRef,     sotVisible]     = useVisible(0.08);
 
   return (
     <section id="design-skills">
 
-      {/* ── 2.1 Fashion Concept Development ── */}
-      <div
-        style={{
-          padding: 'clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 5rem)',
-          background: 'var(--deep-brown)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Radial bg glow */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage:
-              'radial-gradient(ellipse at 70% 30%, rgba(139,58,42,0.15) 0%, transparent 60%)',
-            pointerEvents: 'none',
-          }}
-        />
+      {/* ── Brand Creation ── */}
+      <div style={{
+        padding: 'clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 5rem)',
+        background: 'var(--deep-brown)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'radial-gradient(ellipse at 70% 30%, rgba(139,58,42,0.15) 0%, transparent 60%)',
+          pointerEvents: 'none',
+        }} />
 
-        <div
-          ref={conceptRef}
-          style={{ maxWidth: '1300px', margin: '0 auto', position: 'relative' }}
-        >
-          {/* Section header */}
-          <div
-            style={{
-              marginBottom: 'clamp(3rem, 6vw, 5rem)',
-              opacity: conceptVisible ? 1 : 0,
-              transform: conceptVisible ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'all 0.8s ease',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "'Cormorant SC', serif",
-                fontSize: '0.6rem',
-                letterSpacing: '0.5em',
-                textTransform: 'uppercase',
-                color: 'rgba(201,168,130,0.5)',
-                marginBottom: '0.8rem',
-              }}
-            >
-              Design Skills · 2.1
+        <div ref={conceptRef} style={{ maxWidth: '1300px', margin: '0 auto', position: 'relative' }}>
+          {/* Header */}
+          <div style={{
+            marginBottom: 'clamp(3rem, 6vw, 5rem)',
+            opacity: conceptVisible ? 1 : 0,
+            transform: conceptVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'all 0.8s ease',
+          }}>
+            <p style={{
+              fontFamily: "'Cormorant SC', serif",
+              fontSize: '0.6rem',
+              letterSpacing: '0.5em',
+              textTransform: 'uppercase',
+              color: 'rgba(201,168,130,0.5)',
+              marginBottom: '0.8rem',
+            }}>
+              Design Skills
             </p>
-            <h2
-              style={{
-                fontFamily: "'Cormorant SC', serif",
-                fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
-                fontWeight: 300,
-                color: 'var(--cream)',
-                lineHeight: 1.1,
-              }}
-            >
-              Fashion Concept
+            <h2 style={{
+              fontFamily: "'Cormorant SC', serif",
+              fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+              fontWeight: 300,
+              color: 'var(--cream)',
+              lineHeight: 1.1,
+            }}>
+              Brand
               <br />
-              <em style={{ color: 'var(--sand)', fontStyle: 'italic' }}>
-                Development
-              </em>
+              <em style={{ color: 'var(--sand)', fontStyle: 'italic' }}>Creation</em>
             </h2>
-            <div
-              style={{
-                width: '40px',
-                height: '1px',
-                background: 'var(--terracotta)',
-                marginTop: '1.5rem',
-                opacity: 0.6,
-              }}
-            />
+            <div style={{
+              width: '40px', height: '1px',
+              background: 'var(--terracotta)',
+              marginTop: '1.5rem', opacity: 0.6,
+            }} />
           </div>
 
-          {/* ── Concept grid matching your CSS spec exactly ── */}
+          {/* Concept grid — 3 col, rows as per spec */}
           <div
             style={{
               display: 'grid',
@@ -275,95 +247,71 @@ export default function DesignSkills() {
             className="concept-grid"
           >
             {concepts.map((item, i) => (
-              <ConceptCard
-                key={item.id}
-                item={item}
-                index={i}
-                visible={conceptVisible}
-              />
+              <ConceptCard key={item.id} item={item} index={i} visible={conceptVisible} />
             ))}
           </div>
 
-          {/* Bottom quote */}
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: '5rem',
-              opacity: conceptVisible ? 1 : 0,
-              transition: 'opacity 1s ease 0.6s',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "'IM Fell English', serif",
-                fontStyle: 'italic',
-                fontSize: 'clamp(1rem, 2.5vw, 1.4rem)',
-                color: 'rgba(201,168,130,0.6)',
-                maxWidth: '580px',
-                margin: '0 auto',
-                lineHeight: 1.85,
-              }}
-            >
+          {/* Quote */}
+          <div style={{
+            textAlign: 'center',
+            marginTop: '5rem',
+            opacity: conceptVisible ? 1 : 0,
+            transition: 'opacity 1s ease 0.6s',
+          }}>
+            <p style={{
+              fontFamily: "'IM Fell English', serif",
+              fontStyle: 'italic',
+              fontSize: 'clamp(1rem, 2.5vw, 1.4rem)',
+              color: 'rgba(201,168,130,0.6)',
+              maxWidth: '580px',
+              margin: '0 auto',
+              lineHeight: 1.85,
+            }}>
               "Every collection is a conversation between tradition and the present."
             </p>
           </div>
         </div>
       </div>
 
-      {/* ── 2.2 Freehand Illustration ── */}
-      <div
-        ref={illusRef}
-        style={{
-          padding: 'clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 5rem)',
-          background: 'var(--cream)',
-        }}
-      >
+      {/* ── Freehand Illustration ── */}
+      <div ref={illusRef} style={{
+        padding: 'clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 5rem)',
+        background: 'var(--cream)',
+      }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-
-          {/* Section header */}
-          <div
-            style={{
-              marginBottom: 'clamp(3rem, 6vw, 5rem)',
-              opacity: illusVisible ? 1 : 0,
-              transform: illusVisible ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'all 0.8s ease',
-            }}
-          >
+          {/* Header */}
+          <div style={{
+            marginBottom: 'clamp(3rem, 6vw, 5rem)',
+            opacity: illusVisible ? 1 : 0,
+            transform: illusVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'all 0.8s ease',
+          }}>
             <p className="section-label" style={{ marginBottom: '0.8rem' }}>
-              Design Skills · 2.2
+              Design Skills
             </p>
-            <h2
-              style={{
-                fontFamily: "'Cormorant SC', serif",
-                fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
-                fontWeight: 300,
-                color: 'var(--deep-brown)',
-                lineHeight: 1.1,
-              }}
-            >
+            <h2 style={{
+              fontFamily: "'Cormorant SC', serif",
+              fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+              fontWeight: 300,
+              color: 'var(--deep-brown)',
+              lineHeight: 1.1,
+            }}>
               Freehand
               <br />
-              <em style={{ color: 'var(--terracotta)', fontStyle: 'italic' }}>
-                Illustration
-              </em>
+              <em style={{ color: 'var(--terracotta)', fontStyle: 'italic' }}>Illustration</em>
             </h2>
-            <div
-              style={{
-                width: '40px',
-                height: '1.5px',
-                background: 'var(--terracotta)',
-                marginTop: '1.5rem',
-                opacity: 0.6,
-              }}
-            />
+            <div style={{
+              width: '40px', height: '1.5px',
+              background: 'var(--terracotta)',
+              marginTop: '1.5rem', opacity: 0.6,
+            }} />
           </div>
 
-          {/* ── Illustration grid: 3 equal columns, images natural height ── */}
+          {/* Illustrations — 3 col × 2 rows, portrait images natural height */}
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gridTemplateRows: 'repeat(1, 1fr)',
               gap: '8px',
             }}
             className="illus-grid"
@@ -371,26 +319,24 @@ export default function DesignSkills() {
             {illustrations.map((item, i) => (
               <div
                 key={item.id}
+                className="illus-card"
                 style={{
                   opacity: illusVisible ? 1 : 0,
                   transform: illusVisible ? 'translateY(0)' : 'translateY(35px)',
-                  transition: `all 0.7s ease ${i * 0.12}s`,
+                  transition: `all 0.7s ease ${i * 0.1}s`,
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '0.75rem',
+                  gap: '0.6rem',
                 }}
-                className="illus-card"
               >
-                <div
-                  style={{
-                    width: '100%',
-                    overflow: 'hidden',
-                    background: 'var(--parchment)',
-                    boxShadow: '0 8px 30px rgba(26,15,10,0.1)',
-                    position: 'relative',
-                    lineHeight: 0,
-                  }}
-                >
+                <div style={{
+                  width: '100%',
+                  overflow: 'hidden',
+                  background: 'var(--parchment)',
+                  boxShadow: '0 6px 24px rgba(26,15,10,0.1)',
+                  position: 'relative',
+                  lineHeight: 0,
+                }}>
                   <img
                     src={item.image}
                     alt={item.title}
@@ -398,32 +344,25 @@ export default function DesignSkills() {
                       width: '100%',
                       height: 'auto',
                       display: 'block',
-                      objectFit: 'contain',
                       transition: 'transform 0.6s ease',
                     }}
                   />
-                  <div
-                    className="illus-overlay"
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'rgba(139,58,42,0)',
-                      transition: 'background 0.4s ease',
-                    }}
-                  />
+                  <div className="illus-overlay" style={{
+                    position: 'absolute', inset: 0,
+                    background: 'rgba(139,58,42,0)',
+                    transition: 'background 0.4s ease',
+                  }} />
                 </div>
-
-                <p
-                  style={{
-                    fontFamily: "'Cormorant SC', serif",
-                    fontSize: '0.65rem',
-                    letterSpacing: '0.28em',
-                    color: 'var(--muted)',
-                    textTransform: 'uppercase',
-                    textAlign: 'center',
-                    lineHeight: 1,
-                  }}
-                >
+                <p style={{
+                  fontFamily: "'Cormorant SC', serif",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.28em',
+                  color: 'var(--muted)',
+                  textTransform: 'uppercase',
+                  textAlign: 'center',
+                  lineHeight: 1,
+                  paddingBottom: '0.4rem',
+                }}>
                   {item.title}
                 </p>
               </div>
@@ -432,8 +371,86 @@ export default function DesignSkills() {
         </div>
       </div>
 
+      {/* ── SOT Images ── */}
+      <div ref={sotRef} style={{
+        padding: 'clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem)',
+        background: 'var(--warm-white)',
+      }}>
+        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+          {/* Heading */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: 'clamp(2.5rem, 5vw, 4rem)',
+            opacity: sotVisible ? 1 : 0,
+            transform: sotVisible ? 'translateY(0)' : 'translateY(25px)',
+            transition: 'all 0.8s ease',
+          }}>
+            <p className="section-label" style={{ marginBottom: '0.8rem' }}>
+              Design Skills
+            </p>
+            <h2 style={{
+              fontFamily: "'Cormorant SC', serif",
+              fontSize: 'clamp(2rem, 4.5vw, 3.5rem)',
+              fontWeight: 300,
+              color: 'var(--deep-brown)',
+              lineHeight: 1.1,
+            }}>
+              Statement of
+              <br />
+              <em style={{ color: 'var(--terracotta)', fontStyle: 'italic' }}>Thought</em>
+            </h2>
+            <div style={{
+              width: '36px', height: '1.5px',
+              background: 'var(--terracotta)',
+              margin: '1.4rem auto 0', opacity: 0.6,
+            }} />
+          </div>
+
+          {/* SOT grid — landscape images, 1 col on mobile */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '8px',
+            }}
+            className="sot-grid"
+          >
+            {sotImages.map((item, i) => (
+              <div
+                key={item.id}
+                style={{
+                  // last item (5th) spans full width
+                  gridColumn: i === 4 ? 'span 2' : 'span 1',
+                  overflow: 'hidden',
+                  background: 'var(--parchment)',
+                  opacity: sotVisible ? 1 : 0,
+                  transform: sotVisible ? 'translateY(0)' : 'translateY(30px)',
+                  transition: `all 0.7s ease ${i * 0.1}s`,
+                  lineHeight: 0,
+                }}
+                className="sot-img-wrap"
+              >
+                <img
+                  src={item.image}
+                  alt={`SOT ${i + 1}`}
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    objectFit: 'cover',
+                    // landscape images 2000×1414 — fix a height for visual consistency
+                    aspectRatio: '2000/1414',
+                    transition: 'transform 0.7s ease',
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <style>{`
-        /* Collapse grid to 2-col on tablet */
+        /* ── Concept grid responsive ── */
         @media (max-width: 900px) {
           .concept-grid {
             grid-template-columns: 1fr 1fr !important;
@@ -443,28 +460,33 @@ export default function DesignSkills() {
           .concept-grid > *:nth-child(5) {
             grid-column: span 2 !important;
           }
-          .concept-grid > *:nth-child(2),
-          .concept-grid > *:nth-child(3),
-          .concept-grid > *:nth-child(4) {
+          .concept-grid > *:nth-child(n) {
             grid-row-start: auto !important;
           }
         }
-
-        /* Single column on mobile */
         @media (max-width: 600px) {
-          .concept-grid,
-          .illus-grid {
-            grid-template-columns: 1fr !important;
-            grid-template-rows: auto !important;
-          }
-          .concept-grid > * {
-            grid-column: span 1 !important;
-            grid-row-start: auto !important;
-          }
+          .concept-grid { grid-template-columns: 1fr !important; }
+          .concept-grid > * { grid-column: span 1 !important; }
+          .illus-grid { grid-template-columns: 1fr 1fr !important; }
+          .sot-grid { grid-template-columns: 1fr !important; }
+          .sot-grid > * { grid-column: span 1 !important; }
         }
 
+        /* ── Mobile: always show description, no hover needed ── */
+        .concept-desc {
+          display: none;
+        }
+        @media (hover: hover) {
+          .concept-card:hover .concept-desc { display: block; }
+        }
+        @media (hover: none) {
+          .concept-desc { display: block !important; }
+        }
+
+        /* ── Hover effects ── */
         .illus-card:hover img { transform: scale(1.03); }
         .illus-card:hover .illus-overlay { background: rgba(139,58,42,0.06) !important; }
+        .sot-img-wrap:hover img { transform: scale(1.03); }
       `}</style>
     </section>
   );
