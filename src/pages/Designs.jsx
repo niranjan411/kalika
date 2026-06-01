@@ -14,20 +14,21 @@ function DesignCard({ design, index, onClick, visible }) {
         cursor: 'pointer',
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(40px)',
-        transition: `all 0.7s ease ${index * 0.07}s`,
-        position: 'relative',
-        background: 'var(--cream)',
+        transition: `opacity 0.7s ease ${index * 0.06}s, transform 0.7s ease ${index * 0.06}s`,
+        background: 'transparent',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       {/* Image */}
-      <div
-        style={{
-          aspectRatio: index % 5 === 0 ? '3/4' : index % 3 === 0 ? '1/1' : '4/5',
-          overflow: 'hidden',
-          background: 'var(--parchment)',
-          position: 'relative',
-        }}
-      >
+      <div style={{
+        width: '100%',
+        aspectRatio: '3/4',
+        overflow: 'hidden',
+        background: 'var(--parchment)',
+        position: 'relative',
+        flexShrink: 0,
+      }}>
         <img
           src={design.coverImage}
           alt={design.title}
@@ -35,128 +36,92 @@ function DesignCard({ design, index, onClick, visible }) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            objectPosition: 'center top',
+            display: 'block',
+            transition: 'transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s ease',
             transform: hovered ? 'scale(1.06)' : 'scale(1)',
-            filter: hovered ? 'brightness(0.8)' : 'brightness(1)',
+            filter: hovered ? 'brightness(0.72)' : 'brightness(1)',
           }}
         />
 
         {/* Image count badge */}
         {design.images.length > 1 && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '1rem',
-              right: '1rem',
-              fontFamily: "'Cormorant SC', serif",
-              fontSize: '0.55rem',
-              letterSpacing: '0.2em',
-              color: 'var(--cream)',
-              background: 'rgba(26,15,10,0.5)',
-              backdropFilter: 'blur(4px)',
-              padding: '0.3rem 0.6rem',
-              opacity: hovered ? 1 : 0,
-              transition: 'opacity 0.3s ease',
-            }}
-          >
+          <div style={{
+            position: 'absolute',
+            top: '0.8rem',
+            right: '0.8rem',
+            fontFamily: "'Cormorant SC', serif",
+            fontSize: '0.5rem',
+            letterSpacing: '0.18em',
+            color: 'var(--cream)',
+            background: 'rgba(26,15,10,0.52)',
+            backdropFilter: 'blur(4px)',
+            padding: '0.22rem 0.5rem',
+            opacity: hovered ? 1 : 0,
+            transition: 'opacity 0.3s ease',
+          }}>
             {design.images.length} images
           </div>
         )}
 
-        {/* Hover overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            opacity: hovered ? 1 : 0,
-            transition: 'opacity 0.4s ease',
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "'Cormorant SC', serif",
-              fontSize: '0.65rem',
-              letterSpacing: '0.35em',
-              textTransform: 'uppercase',
-              color: 'var(--cream)',
-              border: '1px solid rgba(245,240,232,0.6)',
-              padding: '0.6rem 1.2rem',
-              background: 'rgba(26,15,10,0.3)',
-              backdropFilter: 'blur(4px)',
-            }}
-          >
+        {/* Hover CTA */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 0.4s ease',
+          pointerEvents: 'none',
+        }}>
+          <span style={{
+            fontFamily: "'Cormorant SC', serif",
+            fontSize: '0.58rem',
+            letterSpacing: '0.35em',
+            textTransform: 'uppercase',
+            color: 'var(--cream)',
+            border: '1px solid rgba(245,240,232,0.55)',
+            padding: '0.5rem 1.1rem',
+            background: 'rgba(26,15,10,0.25)',
+            backdropFilter: 'blur(6px)',
+          }}>
             View Design
-          </div>
+          </span>
         </div>
       </div>
 
-      {/* Info */}
-      <div
-        style={{
-          padding: '1.2rem 0 1.5rem',
-          borderBottom: '1px solid rgba(139,58,42,0.1)',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-          }}
-        >
-          <div>
-            <p
-              style={{
-                fontFamily: "'Cormorant SC', serif",
-                fontSize: '0.55rem',
-                letterSpacing: '0.3em',
-                color: 'var(--terracotta)',
-                textTransform: 'uppercase',
-                marginBottom: '0.4rem',
-                opacity: 0.7,
-              }}
-            >
-              {design.tag}
-            </p>
-            <h3
-              style={{
-                fontFamily: "'Cormorant SC', serif",
-                fontSize: '1.15rem',
-                fontWeight: 400,
-                color: 'var(--deep-brown)',
-                lineHeight: 1.2,
-              }}
-            >
-              {design.title}
-            </h3>
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontSize: '0.95rem',
-                color: 'var(--muted)',
-                marginTop: '0.2rem',
-              }}
-            >
-              {design.subtitle}
-            </p>
-          </div>
-          <div
-            style={{
-              color: 'var(--terracotta)',
-              fontSize: '0.75rem',
-              opacity: hovered ? 1 : 0.3,
-              transition: 'opacity 0.3s ease, transform 0.3s ease',
-              transform: hovered ? 'translateX(4px)' : 'translateX(0)',
-              marginTop: '4px',
-            }}
-          >
-            →
-          </div>
-        </div>
+      {/* Info bar below image */}
+      <div style={{
+        padding: '0.9rem 0 1.1rem',
+        borderBottom: '1px solid rgba(139,58,42,0.1)',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: '0.5rem',
+        flexGrow: 1,
+      }}>
+        <h3 style={{
+          fontFamily: "'Cormorant SC', serif",
+          fontSize: 'clamp(0.9rem, 1.4vw, 1.05rem)',
+          fontWeight: 400,
+          color: 'var(--deep-brown)',
+          lineHeight: 1.25,
+          letterSpacing: '0.04em',
+          minWidth: 0,
+        }}>
+          {design.title}
+        </h3>
+        <span style={{
+          color: 'var(--terracotta)',
+          fontSize: '0.75rem',
+          opacity: hovered ? 1 : 0.2,
+          transition: 'opacity 0.3s ease, transform 0.3s ease',
+          transform: hovered ? 'translateX(3px)' : 'translateX(0)',
+          flexShrink: 0,
+        }}>
+          →
+        </span>
       </div>
     </div>
   );
@@ -166,11 +131,12 @@ export default function Designs() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   const [selectedDesign, setSelectedDesign] = useState(null);
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.05 }
+      { threshold: 0.04 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -187,57 +153,132 @@ export default function Designs() {
         }}
       >
         <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          {/* Header */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              marginBottom: 'clamp(3rem, 6vw, 5rem)',
-              flexWrap: 'wrap',
-              gap: '1.5rem',
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'all 0.8s ease',
-            }}
-          >
-            <div>
-              <p className="section-label" style={{ marginBottom: '1rem' }}>
-                Kalika Designs
-              </p>
-              <h2
-                style={{
-                  fontFamily: "'Cormorant SC', serif",
-                  fontSize: 'clamp(2.2rem, 5vw, 4rem)',
-                  fontWeight: 300,
-                  color: 'var(--deep-brown)',
-                  lineHeight: 1.1,
-                }}
-              >
-                The Collection
-              </h2>
-            </div>
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontSize: '1.05rem',
-                color: 'var(--muted)',
-                maxWidth: '320px',
-                textAlign: 'right',
-                lineHeight: 1.7,
-              }}
-            >
-              Click any piece to explore the full story behind each design.
+
+          {/* ── Section label ── */}
+          <div style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(25px)',
+            transition: 'all 0.8s ease',
+            marginBottom: '2.5rem',
+          }}>
+            <p className="section-label">
+              Clothing Brand
             </p>
           </div>
 
-          {/* Grid */}
+          {/* ── "Kalika Edit" heading ── */}
+          <div style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(25px)',
+            transition: 'all 0.8s ease 0.05s',
+            marginBottom: 'clamp(3rem, 6vw, 5rem)',
+          }}>
+            <h2 style={{
+              fontFamily: "'Cormorant SC', serif",
+              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              fontWeight: 300,
+              color: 'var(--deep-brown)',
+              lineHeight: 1.0,
+              marginBottom: '0',
+            }}>
+              Kalika Edit
+            </h2>
+          </div>
+
+          {/* ── Logo + tagline block ── */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
+            marginBottom: 'clamp(4rem, 7vw, 6rem)',
+            background: 'var(--cream)',
+            position: 'relative',
+            opacity: visible ? 1 : 0,
+            transition: 'opacity 0.9s ease 0.1s',
+          }}>
+            {/* Decorative corner marks */}
+            {[
+              { top: '16px', left: '16px', borderTop: '1px solid', borderLeft: '1px solid' },
+              { top: '16px', right: '16px', borderTop: '1px solid', borderRight: '1px solid' },
+              { bottom: '16px', left: '16px', borderBottom: '1px solid', borderLeft: '1px solid' },
+              { bottom: '16px', right: '16px', borderBottom: '1px solid', borderRight: '1px solid' },
+            ].map((s, i) => (
+              <div key={i} style={{
+                position: 'absolute',
+                width: '20px', height: '20px',
+                borderColor: 'rgba(139,58,42,0.2)',
+                borderStyle: 'solid',
+                borderWidth: 0,
+                ...s,
+              }} />
+            ))}
+
+            {/* Logo */}
+            <div style={{
+              opacity: logoLoaded ? 1 : 0,
+              transform: logoLoaded ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.97)',
+              transition: 'all 0.9s cubic-bezier(0.25,0.46,0.45,0.94)',
+              marginBottom: 'clamp(1.8rem, 3vw, 2.5rem)',
+            }}>
+              <img
+                src="/logo2.2.png"
+                alt="Kalika"
+                onLoad={() => setLogoLoaded(true)}
+                style={{
+                  width: 'clamp(160px, 22vw, 260px)',
+                  height: 'auto',
+                  display: 'block',
+                  margin: '0 auto',
+                  objectFit: 'contain',
+                }}
+              />
+            </div>
+
+            {/* Divider */}
+            <div style={{
+              width: '36px', height: '1px',
+              background: 'var(--terracotta)',
+              opacity: 0.4,
+              marginBottom: 'clamp(1.5rem, 3vw, 2rem)',
+            }} />
+
+            {/* Tagline */}
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: 'italic',
+              fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)',
+              color: 'var(--mid-brown)',
+              lineHeight: 2,
+              maxWidth: '520px',
+              margin: '0 auto',
+            }}>
+              From a blooming bud to blossoming bonds.
+              <br />
+              Kalika is here — hand block–printed love made for you and yours.
+              <br />
+              <span style={{
+                fontFamily: "'Cormorant SC', serif",
+                fontStyle: 'normal',
+                fontSize: '0.65rem',
+                letterSpacing: '0.35em',
+                color: 'var(--terracotta)',
+                textTransform: 'uppercase',
+                opacity: 0.8,
+              }}>
+                Made in India, stitched with emotion.
+              </span>
+            </p>
+          </div>
+
+          {/* ── Designs grid ── */}
           <div
+            className="designs-grid"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-              gap: 'clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem)',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+              gap: 'clamp(2.5rem, 4vw, 3.5rem) clamp(1rem, 2.5vw, 2rem)',
             }}
           >
             {designs.map((design, i) => (
@@ -251,45 +292,42 @@ export default function Designs() {
             ))}
           </div>
 
-          {/* Bottom note */}
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: 'clamp(4rem, 7vw, 6rem)',
-              opacity: visible ? 1 : 0,
-              transition: 'opacity 1s ease 0.6s',
-            }}
-          >
-            <div
-              style={{
-                width: '40px',
-                height: '1px',
-                background: 'var(--terracotta)',
-                margin: '0 auto 1.5rem',
-                opacity: 0.4,
-              }}
-            />
-            <p
-              style={{
-                fontFamily: "'IM Fell English', serif",
-                fontStyle: 'italic',
-                fontSize: '1rem',
-                color: 'var(--muted)',
-              }}
-            >
-              New drops every season · DM on Instagram for custom orders
-            </p>
-          </div>
+          {/* Footer note */}
+          
         </div>
       </section>
 
-      {/* Design Detail Overlay */}
       {selectedDesign && (
         <DesignDetail
           design={selectedDesign}
           onClose={() => setSelectedDesign(null)}
         />
       )}
+
+      <style>{`
+        /* Tablet */
+        @media (max-width: 768px) {
+          .designs-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+            gap: 2rem 1rem !important;
+          }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+          .designs-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 1.8rem 0.75rem !important;
+          }
+        }
+
+        /* Very small */
+        @media (max-width: 320px) {
+          .designs-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

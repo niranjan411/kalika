@@ -150,32 +150,10 @@ export default function Home() {
             color: 'var(--muted)',
             marginBottom: '1rem',
           }}>
-            Portfolio · Fashion Design
+            Portfolio · Siddharth Karandikar
           </p>
 
-          <h1 style={{
-            fontFamily: "'Cormorant SC', serif",
-            fontSize: 'clamp(3.2rem, 6.5vw, 6rem)',
-            fontWeight: 300,
-            color: 'var(--deep-brown)',
-            lineHeight: 0.9,
-            letterSpacing: '-0.01em',
-            marginBottom: '0.4rem',
-          }}>
-            Kalika
-          </h1>
-
-          <h2 style={{
-            fontFamily: "'Cormorant SC', serif",
-            fontSize: 'clamp(0.9rem, 1.8vw, 1.5rem)',
-            fontWeight: 300,
-            color: 'var(--terracotta)',
-            letterSpacing: '0.42em',
-            textTransform: 'uppercase',
-            marginBottom: '1.8rem',
-          }}>
-            Designs
-          </h2>
+         
 
           <div style={{
             width: '32px', height: '1.5px',

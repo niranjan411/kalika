@@ -280,7 +280,7 @@ export default function DesignSkills() {
               color: 'var(--cream)',
               lineHeight: 1.1,
             }}>
-              Brand
+              Board
               <br />
               <em style={{ color: 'var(--sand)', fontStyle: 'italic' }}>Creation</em>
             </h2>
@@ -447,9 +447,9 @@ export default function DesignSkills() {
               color: 'var(--deep-brown)',
               lineHeight: 1.1,
             }}>
-              Statement of
+              Surface Ornamentation 
               <br />
-              <em style={{ color: 'var(--terracotta)', fontStyle: 'italic' }}>Thought</em>
+              <em style={{ color: 'var(--terracotta)', fontStyle: 'italic' }}>Techniques</em>
             </h2>
             <div style={{
               width: '36px', height: '1.5px',

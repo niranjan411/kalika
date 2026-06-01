@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 const navLinks = [
-  { label: 'About', href: '#about' },
+  { label: 'About',         href: '#about' },
   { label: 'Design Skills', href: '#design-skills' },
-  
-  { label: 'Process', href: '#process' },
-  { label: 'Designs', href: '#designs' },
+  { label: 'Process',       href: '#process' },
+  { label: 'Designs',       href: '#designs' },
+  { label: 'Other',         href: '#other' },
 ];
 
 export default function Header({ onNavClick }) {

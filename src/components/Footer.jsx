@@ -82,39 +82,7 @@ export default function Footer() {
             >
               Hand-blocked. Homegrown. Made with heart, not algorithms.
             </p>
-            <div
-              style={{
-                display: 'flex',
-                gap: '1rem',
-                marginTop: '1.8rem',
-              }}
-            >
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: "'Cormorant SC', serif",
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.25em',
-                  color: 'rgba(201,168,130,0.5)',
-                  textTransform: 'uppercase',
-                  border: '1px solid rgba(201,168,130,0.2)',
-                  padding: '0.5rem 1rem',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.color = 'var(--cream)';
-                  e.target.style.borderColor = 'rgba(201,168,130,0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.color = 'rgba(201,168,130,0.5)';
-                  e.target.style.borderColor = 'rgba(201,168,130,0.2)';
-                }}
-              >
-                Instagram
-              </a>
-            </div>
+            
           </div>
 
           {/* Navigation */}
@@ -131,7 +99,7 @@ export default function Footer() {
             >
               Navigation
             </p>
-            {['About', 'Illustrations', 'SOT', 'Process', 'Designs'].map((item) => (
+            {['About', 'Design Skills',  'Process', 'Designs' , 'Other'].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -215,7 +183,7 @@ export default function Footer() {
               textTransform: 'uppercase',
             }}
           >
-            © 2024 Kalika Designs · कलिका
+             Kalika Designs · कलिका
           </p>
           <p
             style={{
@@ -225,7 +193,7 @@ export default function Footer() {
               color: 'rgba(201,168,130,0.3)',
             }}
           >
-            Made with heart, not algorithms.
+            Designed & developed by niranjanmemane@47gmail.com
           </p>
         </div>
       </div>
