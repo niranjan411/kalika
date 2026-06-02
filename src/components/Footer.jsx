@@ -193,7 +193,16 @@ export default function Footer() {
               color: 'rgba(201,168,130,0.3)',
             }}
           >
-            Designed & developed by niranjanmemane@47gmail.com
+           Designed & developed by
+<a
+href="https://wa.me/917385583461?text=Hi%20Niranjan,%20I%20want%20to%20know%20more%20about%20website%20development."
+target="_blank"
+style="color: #D98C5F; text-decoration: underline;"
+
+>
+
+[niranjanmemane@gmail.com](mailto:niranjanmemane@gmail.com) </a>
+
           </p>
         </div>
       </div>
