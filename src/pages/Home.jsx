@@ -121,25 +121,7 @@ export default function Home() {
           maxWidth: '480px',
         }}>
           {/* Logo */}
-          <div style={{
-            opacity: loaded ? 1 : 0,
-            transform: loaded ? 'translateY(0)' : 'translateY(16px)',
-            transition: 'all 0.9s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s',
-            marginBottom: '2rem',
-          }}>
-            <img
-              src="/logo (2).jpg"
-              alt="Kalika Logo"
-              style={{
-                width: 'clamp(90px, 10vw, 130px)',
-                height: 'clamp(90px, 10vw, 130px)',
-                objectFit: 'contain',
-                borderRadius: '50%',
-                background: 'var(--cream)',
-                display: 'block',
-              }}
-            />
-          </div>
+          
 
           {/* Text */}
           <p style={{

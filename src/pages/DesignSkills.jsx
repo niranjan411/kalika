@@ -106,10 +106,12 @@ function ConceptCard({ item, index, visible }) {
     >
       {/* ── Image ── */}
       <div
-        className="concept-img-wrap"
+        className={`concept-img-wrap${isFullWidth ? ' concept-img-wrap--full' : ''}`}
         style={{
           width: '100%',
-          aspectRatio: isFullWidth ? '21/8' : '4/5',
+          // Full-width cards: no fixed aspect ratio — image shows at natural height
+          // Portrait cards: keep 4/5 ratio
+          aspectRatio: isFullWidth ? 'unset' : '4/5',
           overflow: 'hidden',
           position: 'relative',
           flexShrink: 0,
@@ -120,8 +122,10 @@ function ConceptCard({ item, index, visible }) {
           alt={item.title}
           style={{
             width: '100%',
-            height: '100%',
-            objectFit: 'cover',
+            // Full-width: height auto so natural image dimensions are respected
+            height: isFullWidth ? 'auto' : '100%',
+            display: 'block',
+            objectFit: isFullWidth ? 'unset' : 'cover',
             objectPosition: 'center top',
             transition: 'transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease',
             transform: hovered ? 'scale(1.05)' : 'scale(1)',
@@ -513,6 +517,17 @@ export default function DesignSkills() {
         .illus-card:hover .illus-overlay { background: rgba(139,58,42,0.06) !important; }
         .sot-img-wrap:hover img { transform: scale(1.03); }
 
+        /* Full-width cards: image is natural height, overlay must be positioned absolutely */
+        .concept-img-wrap--full {
+          position: relative;
+        }
+        .concept-img-wrap--full img {
+          width: 100%;
+          height: auto !important;
+          display: block;
+          object-fit: unset !important;
+        }
+
 
         /* ════════════════════
            TABLET  ≤ 900px
@@ -532,9 +547,13 @@ export default function DesignSkills() {
           .concept-img-wrap {
             aspect-ratio: 4/3 !important;
           }
-          .concept-grid > *:nth-child(1) .concept-img-wrap,
-          .concept-grid > *:nth-child(5) .concept-img-wrap {
-            aspect-ratio: 21/8 !important;
+          /* Full-width cards on tablet: still natural height */
+          .concept-img-wrap--full {
+            aspect-ratio: unset !important;
+          }
+          .concept-img-wrap--full img {
+            height: auto !important;
+            aspect-ratio: unset !important;
           }
         }
 
@@ -563,6 +582,15 @@ export default function DesignSkills() {
           .concept-img-wrap {
             width: 100% !important;
             aspect-ratio: 3/4 !important;
+          }
+
+          /* Full-width cards on mobile: also natural height */
+          .concept-img-wrap--full {
+            aspect-ratio: unset !important;
+          }
+          .concept-img-wrap--full img {
+            height: auto !important;
+            aspect-ratio: unset !important;
           }
 
           /* Hide on-image overlay on mobile */

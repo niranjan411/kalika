@@ -2,6 +2,233 @@ import React, { useRef, useState, useEffect } from 'react';
 import { designs } from '../data/designs';
 import DesignDetail from '../components/DesignDetail';
 
+const brandImages = [
+  '/img01.jpeg',
+  '/img02.jpeg',
+  '/img03.jpeg',
+  '/img04.jpeg',
+  '/img05.jpeg',
+  '/img06.jpeg',
+  '/img07.jpeg',
+  '/img08.jpeg',
+  '/img09.png',
+  '/img10.jpeg',
+  '/img11.jpeg',
+  '/img12.jpeg',
+  '/img13.jpeg',
+  '/img14.jpeg',
+];
+
+function BrandGallery({ visible }) {
+  const [lightbox, setLightbox] = useState(null);
+
+  return (
+    <>
+      {/* ── Section label ── */}
+      <div style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(20px)',
+        transition: 'all 0.8s ease 0.12s',
+        marginBottom: '1.5rem',
+      }}>
+        <p style={{
+          fontFamily: "'Cormorant SC', serif",
+          fontSize: '0.58rem',
+          letterSpacing: '0.42em',
+          textTransform: 'uppercase',
+          color: 'var(--muted)',
+          marginBottom: '0.5rem',
+        }}>
+          Brand Images
+        </p>
+        <div style={{
+          width: '36px', height: '1.5px',
+          background: 'var(--terracotta)',
+          opacity: 0.5,
+        }} />
+      </div>
+
+      {/* ── Masonry-style grid ── */}
+      <div
+        className="brand-gallery-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '6px',
+          marginBottom: 'clamp(4rem, 7vw, 6rem)',
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(24px)',
+          transition: 'opacity 0.9s ease 0.18s, transform 0.9s ease 0.18s',
+        }}
+      >
+        {brandImages.map((src, i) => (
+          <BrandImageTile key={i} src={src} index={i} onClick={() => setLightbox(i)} />
+        ))}
+      </div>
+
+      {/* ── Lightbox ── */}
+      {lightbox !== null && (
+        <div
+          onClick={() => setLightbox(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(26,15,10,0.92)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1rem',
+          }}
+        >
+          {/* Prev */}
+          <button
+            onClick={e => { e.stopPropagation(); setLightbox(p => (p - 1 + brandImages.length) % brandImages.length); }}
+            style={{
+              position: 'absolute', left: 'clamp(0.5rem, 3vw, 2rem)', top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'transparent',
+              border: '1px solid rgba(201,168,130,0.3)',
+              color: 'rgba(201,168,130,0.7)',
+              width: '42px', height: '42px',
+              cursor: 'pointer', fontSize: '1.1rem',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'serif',
+            }}
+          >←</button>
+
+          <img
+            src={brandImages[lightbox]}
+            alt={`Brand image ${lightbox + 1}`}
+            onClick={e => e.stopPropagation()}
+            style={{
+              maxWidth: '88vw',
+              maxHeight: '88vh',
+              objectFit: 'contain',
+              display: 'block',
+            }}
+          />
+
+          {/* Next */}
+          <button
+            onClick={e => { e.stopPropagation(); setLightbox(p => (p + 1) % brandImages.length); }}
+            style={{
+              position: 'absolute', right: 'clamp(0.5rem, 3vw, 2rem)', top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'transparent',
+              border: '1px solid rgba(201,168,130,0.3)',
+              color: 'rgba(201,168,130,0.7)',
+              width: '42px', height: '42px',
+              cursor: 'pointer', fontSize: '1.1rem',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'serif',
+            }}
+          >→</button>
+
+          {/* Close */}
+          <button
+            onClick={() => setLightbox(null)}
+            style={{
+              position: 'absolute', top: '1.2rem', right: '1.2rem',
+              background: 'transparent',
+              border: '1px solid rgba(201,168,130,0.25)',
+              color: 'rgba(201,168,130,0.6)',
+              width: '36px', height: '36px',
+              cursor: 'pointer', fontSize: '1rem',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}
+          >✕</button>
+
+          {/* Counter */}
+          <p style={{
+            position: 'absolute', bottom: '1.2rem',
+            fontFamily: "'Cormorant SC', serif",
+            fontSize: '0.55rem',
+            letterSpacing: '0.3em',
+            color: 'rgba(201,168,130,0.4)',
+          }}>
+            {lightbox + 1} / {brandImages.length}
+          </p>
+        </div>
+      )}
+    </>
+  );
+}
+
+function BrandImageTile({ src, index, onClick }) {
+  const [hovered, setHovered] = useState(false);
+
+  // Make some tiles span 2 cols or 2 rows for visual variety
+  const spans = [
+    { gridColumn: 'span 2' },   // img01 — wide
+    {},                          // img02
+    {},                          // img03
+    {},                          // img04
+    {},                          // img05
+    { gridColumn: 'span 2' },   // img06 — wide
+    {},                          // img07
+    {},                          // img08
+    {},                          // img09
+    { gridColumn: 'span 2' },   // img10 — wide
+    {},                          // img11
+    {},                          // img12
+    {},                          // img13
+    { gridColumn: 'span 2' },   // img14 — wide
+  ];
+
+  return (
+    <div
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        ...(spans[index] || {}),
+        overflow: 'hidden',
+        cursor: 'pointer',
+        position: 'relative',
+        background: 'var(--parchment)',
+        lineHeight: 0,
+      }}
+    >
+      <img
+        src={src}
+        alt={`Brand ${index + 1}`}
+        style={{
+          width: '100%',
+          aspectRatio: spans[index]?.gridColumn === 'span 2' ? '16/9' : '4/5',
+          objectFit: 'cover',
+          objectPosition: 'center',
+          display: 'block',
+          transition: 'transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s ease',
+          transform: hovered ? 'scale(1.06)' : 'scale(1)',
+          filter: hovered ? 'brightness(0.75)' : 'brightness(1)',
+        }}
+      />
+      {/* Hover overlay */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        opacity: hovered ? 1 : 0,
+        transition: 'opacity 0.35s ease',
+        pointerEvents: 'none',
+      }}>
+        <span style={{
+          fontFamily: "'Cormorant SC', serif",
+          fontSize: '0.5rem',
+          letterSpacing: '0.3em',
+          textTransform: 'uppercase',
+          color: 'var(--cream)',
+          border: '1px solid rgba(245,240,232,0.45)',
+          padding: '0.4rem 0.9rem',
+          background: 'rgba(26,15,10,0.22)',
+        }}>
+          View
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function DesignCard({ design, index, onClick, visible }) {
   const [hovered, setHovered] = useState(false);
 
@@ -192,7 +419,7 @@ export default function Designs() {
             alignItems: 'center',
             textAlign: 'center',
             padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-            marginBottom: 'clamp(4rem, 7vw, 6rem)',
+            marginBottom: 'clamp(3rem, 5vw, 4rem)',
             background: 'var(--cream)',
             position: 'relative',
             opacity: visible ? 1 : 0,
@@ -272,6 +499,32 @@ export default function Designs() {
             </p>
           </div>
 
+          {/* ── Brand Images Gallery ── */}
+          <BrandGallery visible={visible} />
+
+          {/* ── Divider before collections ── */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1.2rem',
+            marginBottom: 'clamp(2.5rem, 5vw, 4rem)',
+            opacity: visible ? 1 : 0,
+            transition: 'opacity 0.8s ease 0.2s',
+          }}>
+            <div style={{ flex: 1, height: '1px', background: 'rgba(139,58,42,0.12)' }} />
+            <p style={{
+              fontFamily: "'Cormorant SC', serif",
+              fontSize: '0.58rem',
+              letterSpacing: '0.42em',
+              textTransform: 'uppercase',
+              color: 'var(--muted)',
+              whiteSpace: 'nowrap',
+            }}>
+              The Collections
+            </p>
+            <div style={{ flex: 1, height: '1px', background: 'rgba(139,58,42,0.12)' }} />
+          </div>
+
           {/* ── Designs grid ── */}
           <div
             className="designs-grid"
@@ -292,8 +545,6 @@ export default function Designs() {
             ))}
           </div>
 
-          {/* Footer note */}
-          
         </div>
       </section>
 
@@ -311,6 +562,9 @@ export default function Designs() {
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
             gap: 2rem 1rem !important;
           }
+          .brand-gallery-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
         }
 
         /* Mobile */
@@ -319,11 +573,17 @@ export default function Designs() {
             grid-template-columns: 1fr 1fr !important;
             gap: 1.8rem 0.75rem !important;
           }
+          .brand-gallery-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
         }
 
         /* Very small */
         @media (max-width: 320px) {
           .designs-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .brand-gallery-grid {
             grid-template-columns: 1fr !important;
           }
         }

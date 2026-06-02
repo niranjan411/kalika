@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 
-const carousels = [
+const GAP = 0; // No gap — prevents the half-image bleed issue
+
+const internshipCarousels = [
   {
     id: 1,
     label: '1st Internship',
@@ -20,6 +22,16 @@ const carousels = [
     delay: 3600,
   },
 ];
+
+const productStylingCarousel = {
+  id: 3,
+  label: 'Product Styling',
+  images: [
+    '/ps1.png', '/ps2.png', '/ps3.png',
+    '/ps4.png', '/ps5.png',
+  ],
+  delay: 3200,
+};
 
 function useVisible(threshold = 0.08) {
   const ref = useRef(null);
@@ -46,8 +58,6 @@ function useIsMobile() {
   }, []);
   return mobile;
 }
-
-const GAP = 8;
 
 function InternshipCarousel({ data }) {
   const isMobile = useIsMobile();
@@ -77,7 +87,6 @@ function InternshipCarousel({ data }) {
     return () => clearInterval(timerRef.current);
   }, [next, data.delay]);
 
-  // Clamp current index when screen size changes
   useEffect(() => {
     setCurrent(p => Math.min(p, maxIndex));
   }, [maxIndex]);
@@ -85,9 +94,10 @@ function InternshipCarousel({ data }) {
   const handlePrev = () => { prev(); resetTimer(); };
   const handleNext = () => { next(); resetTimer(); };
 
-  // translateX: each step moves one slide-width (including gap)
+  // Each slide is exactly (100 / visCount)% of the container width.
+  // Shifting by current * (100 / visCount)% moves exactly one slide at a time — no gap bleed.
   const slideWidthPct = 100 / visCount;
-  const translateX = current * (slideWidthPct + GAP / visCount);
+  const translatePct = current * slideWidthPct;
 
   return (
     <div
@@ -181,20 +191,23 @@ function InternshipCarousel({ data }) {
           <div
             style={{
               display: 'flex',
-              gap: `${GAP}px`,
               transition: 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)',
-              transform: `translateX(calc(-${translateX}%))`,
+              transform: `translateX(-${translatePct}%)`,
+              willChange: 'transform',
             }}
           >
             {data.images.map((img, i) => (
               <div
                 key={i}
                 style={{
-                  flex: `0 0 calc(${slideWidthPct}% - ${GAP * (visCount - 1) / visCount}px)`,
+                  flex: `0 0 ${slideWidthPct}%`,
+                  width: `${slideWidthPct}%`,
                   minWidth: 0,
                   overflow: 'hidden',
                   background: 'var(--parchment)',
                   lineHeight: 0,
+                  boxSizing: 'border-box',
+                  padding: '0 4px',
                 }}
               >
                 <img
@@ -239,11 +252,12 @@ function InternshipCarousel({ data }) {
 
 export default function Other() {
   const [headerRef, headerVisible] = useVisible(0.1);
+  const [psHeaderRef, psHeaderVisible] = useVisible(0.1);
 
   return (
     <section id="other">
 
-      {/* Section heading */}
+      {/* ── Internships heading ── */}
       <div
         ref={headerRef}
         style={{
@@ -283,10 +297,66 @@ export default function Other() {
         }} />
       </div>
 
-      {/* Carousels */}
-      {carousels.map(data => (
+      {/* ── Internship carousels ── */}
+      {internshipCarousels.map(data => (
         <InternshipCarousel key={data.id} data={data} />
       ))}
+
+      {/* ── Section divider ── */}
+      <div style={{
+        padding: '0 clamp(1.5rem, 5vw, 5rem)',
+        maxWidth: '1300px',
+        margin: '0 auto',
+      }}>
+        <div style={{
+          height: '1px',
+          background: 'linear-gradient(to right, transparent, rgba(139,58,42,0.18), transparent)',
+          margin: 'clamp(1rem, 3vw, 2rem) 0',
+        }} />
+      </div>
+
+      {/* ── Product Styling heading ── 
+      <div
+        ref={psHeaderRef}
+        style={{
+          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 5rem) 0',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          opacity: psHeaderVisible ? 1 : 0,
+          transform: psHeaderVisible ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'all 0.8s ease',
+        }}
+      >
+        <p style={{
+          fontFamily: "'Cormorant SC', serif",
+          fontSize: '0.6rem',
+          letterSpacing: '0.5em',
+          textTransform: 'uppercase',
+          color: 'var(--muted)',
+          marginBottom: '0.8rem',
+        }}>
+          Other
+        </p>
+        <h2 style={{
+          fontFamily: "'Cormorant SC', serif",
+          fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+          fontWeight: 300,
+          color: 'var(--deep-brown)',
+          lineHeight: 1.1,
+          marginBottom: '1rem',
+        }}>
+          Product Styling
+        </h2>
+        <div style={{
+          width: '40px', height: '1.5px',
+          background: 'var(--terracotta)',
+          opacity: 0.55,
+          marginBottom: 'clamp(2rem, 4vw, 3rem)',
+        }} />
+      </div> */}
+
+      {/* ── Product Styling carousel ── */}
+      <InternshipCarousel data={productStylingCarousel} />
 
     </section>
   );
